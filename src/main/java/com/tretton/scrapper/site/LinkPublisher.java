@@ -40,7 +40,6 @@ public class LinkPublisher {
 	}
 
 	private void notifySubscribers(String url) {
-		System.out.println("Notifying subscriber for new url [" + url + "]");
 		subscribers.forEach(subscriber -> subscriber.subscribe(url));
 	}
 

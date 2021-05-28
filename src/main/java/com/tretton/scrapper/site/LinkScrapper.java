@@ -1,40 +1,23 @@
 package com.tretton.scrapper.site;
 
-import com.tretton.scrapper.util.PageInfo;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class LinkScrapper implements LinkSubscriber {
-	private final LinkPublisher linkPublisher;
-
-	public LinkScrapper(LinkPublisher linkPublisher) {
-		this.linkPublisher = linkPublisher;
-	}
 
 	@Override
 	public void subscribe(String url) {
-		PageInfo pageInfo = getPageInfo(url);
-		pageInfo.getUrls().parallelStream().forEach(linkPublisher::process);
+		String content = getContent(url);
 	}
 
-	private PageInfo getPageInfo(String url) {
+	private String getContent(String url) {
 		try {
-			Document doc = Jsoup.connect(url).get();
-			String content = doc.html();
-
-			Elements links = doc.select("a[href]");
-			Set<String> urls = links.stream().map(element -> element.attr("abs:href")).collect(Collectors.toSet());
-
-			return new PageInfo(content, urls);
+			return Jsoup.connect(url).get().html();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return new PageInfo();
+		return "";
 	}
 
 }
