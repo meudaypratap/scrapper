@@ -40,7 +40,7 @@ public class LinkPublisher {
 	}
 
 	private void notifySubscribers(String url) {
-		subscribers.forEach(subscriber -> subscriber.subscribe(url));
+		subscribers.parallelStream().forEach(subscriber -> subscriber.subscribe(url));
 	}
 
 	public void run() {
