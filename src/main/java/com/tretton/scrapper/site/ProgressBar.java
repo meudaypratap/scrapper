@@ -11,6 +11,6 @@ public class ProgressBar implements LinkSubscriber {
 	@Override
 	public void subscribe(String url) {
 		counter++;
-		System.out.print("Processing link # [" + counter + "]");
+		System.out.println("Processing URL [" + url + "] # " + counter);
 	}
 }
