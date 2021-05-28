@@ -1,5 +1,6 @@
 package com.tretton.scrapper;
 
+import com.tretton.scrapper.site.FileSystemUrlContentSubscriber;
 import com.tretton.scrapper.site.LinkFinder;
 import com.tretton.scrapper.site.LinkPublisher;
 import com.tretton.scrapper.site.LinkScrapper;
@@ -14,8 +15,13 @@ public class Application {
 			LinkPublisher linkPublisher = new LinkPublisher("https://tretton37.com");
 			LinkSubscriber linkFinder = new LinkFinder(linkPublisher);
 			linkPublisher.addSubscriber(linkFinder);
+
+			LinkScrapper linkScrapper = new LinkScrapper();
+			linkScrapper.addSubscriber(new FileSystemUrlContentSubscriber());
+			linkPublisher.addSubscriber(linkScrapper);
+
 			linkPublisher.addSubscriber(new ProgressBar());
-			linkPublisher.addSubscriber(new LinkScrapper());
+
 			linkPublisher.run();
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
