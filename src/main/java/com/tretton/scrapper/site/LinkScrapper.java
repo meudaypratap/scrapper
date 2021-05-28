@@ -9,17 +9,17 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class LinkSubscriberImpl implements LinkSubscriber {
+public class LinkScrapper implements LinkSubscriber {
 	private final LinkPublisher linkPublisher;
 
-	public LinkSubscriberImpl(LinkPublisher linkPublisher) {
+	public LinkScrapper(LinkPublisher linkPublisher) {
 		this.linkPublisher = linkPublisher;
 	}
 
 	@Override
 	public void subscribe(String url) {
 		PageInfo pageInfo = getPageInfo(url);
-		pageInfo.getUrls().forEach(linkPublisher::process);
+		pageInfo.getUrls().parallelStream().forEach(linkPublisher::process);
 	}
 
 	private PageInfo getPageInfo(String url) {
