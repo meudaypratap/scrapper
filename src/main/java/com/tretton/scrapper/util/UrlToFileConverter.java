@@ -32,7 +32,7 @@ public class UrlToFileConverter {
 			fileName = sanitizeQueryParameters(query);
 		}
 		fileName = StringUtil.isBlank(fileName) ? DEFAULT_FILE : fileName;
-		return fileName + ".html";
+		return fileName.endsWith(".html") ? fileName : (fileName + ".html");
 	}
 
 	/**

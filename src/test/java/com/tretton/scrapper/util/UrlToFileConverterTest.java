@@ -13,6 +13,7 @@ class UrlToFileConverterTest {
 	@ParameterizedTest
 	@CsvSource(value = {
 			"http://tretton37.com/meet/erik-linne|erik-linne.html",
+			"http://tretton37.com/meet/erik-linne.html|erik-linne.html",
 			"http://tretton37.com|index.html",
 			"http://tretton37.com?id=test|id-test.html",
 			"http://tretton37.com?id=test&x=abc&y=query|id-test_x-abc_y-query.html",
