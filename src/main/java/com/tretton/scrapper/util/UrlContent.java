@@ -1,10 +1,12 @@
 package com.tretton.scrapper.util;
 
+import java.net.URL;
+
 public class UrlContent {
-	private String url;
+	private URL url;
 	private String content;
 
-	public UrlContent(String url, String content) {
+	public UrlContent(URL url, String content) {
 		this.url = url;
 		this.content = content;
 	}
@@ -13,7 +15,7 @@ public class UrlContent {
 		return content;
 	}
 
-	public String getUrl() {
+	public URL getUrl() {
 		return url;
 	}
 }

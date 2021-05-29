@@ -1,5 +1,7 @@
 package com.tretton.scrapper.site;
 
+import java.net.URL;
+
 public class ProgressBar implements LinkSubscriber {
 
 	private Integer counter;
@@ -9,7 +11,7 @@ public class ProgressBar implements LinkSubscriber {
 	}
 
 	@Override
-	public void subscribe(String url) {
+	public void subscribe(URL url) {
 		counter++;
 		System.out.println("Processing URL [" + url + "] # " + counter);
 	}

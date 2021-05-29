@@ -4,10 +4,12 @@ import com.tretton.scrapper.util.UrlContent;
 import org.jsoup.Jsoup;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
 public class LinkScrapper implements LinkSubscriber {
+	private static final Integer CONNECTION_TIMEOUT = 10000;
 	private final Set<UrlContentSubscriber> subscribers;
 
 	public LinkScrapper() {
@@ -15,7 +17,7 @@ public class LinkScrapper implements LinkSubscriber {
 	}
 
 	@Override
-	public void subscribe(String url) {
+	public void subscribe(URL url) {
 		process(url);
 	}
 
@@ -23,9 +25,9 @@ public class LinkScrapper implements LinkSubscriber {
 		subscribers.add(subscriber);
 	}
 
-	private void process(String url) {
+	private void process(URL url) {
 		try {
-			String content = Jsoup.connect(url).get().html();
+			String content = Jsoup.parse(url, CONNECTION_TIMEOUT).html();
 			UrlContent urlContent = new UrlContent(url, content);
 			notifySubscribers(urlContent);
 		} catch (IOException e) {

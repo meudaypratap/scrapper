@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class LinkPublisher {
 
-	private static final Set<String> urls = new HashSet<>();
+	private static final Set<URL> urls = new HashSet<>();
 
 	private final String url;
 	private final String domain;
@@ -22,12 +22,17 @@ public class LinkPublisher {
 	}
 
 	public void process(String url) {
-		if (!StringUtil.isBlank(url) && !urls.contains(url)) {
+		if (!StringUtil.isBlank(url)) {
+			String sanitizedUrl = url.split("#")[0];
+			sanitizedUrl = sanitizedUrl.replace("https", "http");
 			try {
-				String urlDomain = new URL(url).getHost();
-				if (urlDomain.equalsIgnoreCase(domain)) {
-					urls.add(url);
-					notifySubscribers(url);
+				URL link = new URL(sanitizedUrl);
+				if (!urls.contains(link)) {
+					String urlDomain = link.getHost();
+					if (urlDomain.equalsIgnoreCase(domain)) {
+						urls.add(link);
+						notifySubscribers(link);
+					}
 				}
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
@@ -39,7 +44,7 @@ public class LinkPublisher {
 		subscribers.add(subscriber);
 	}
 
-	private void notifySubscribers(String url) {
+	private void notifySubscribers(URL url) {
 		subscribers.parallelStream().forEach(subscriber -> subscriber.subscribe(url));
 	}
 
