@@ -9,8 +9,19 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+/**
+ * This class writes the content on file system
+ *
+ * @author Uday
+ * @version 1.0
+ * @since 1.0
+ */
 @Log
 public class FileSystemWriter implements FileWriter {
+
+	/**
+	 * This method creates the directory and then write file on the system
+	 */
 	@Override
 	public void write(String folderName, String fileName, String content) {
 		String fullPath = folderName + "/" + fileName;
