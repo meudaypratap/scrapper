@@ -8,6 +8,8 @@ import com.tretton.scrapper.site.ProgressBar;
 import com.tretton.scrapper.site.UrlContentSubscriber;
 
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Set;
 
 public class Application {
 	public static void main(String[] args) {
@@ -23,7 +25,8 @@ public class Application {
 
 			linkPublisher.addSubscriber(new ProgressBar());
 
-			linkPublisher.run();
+			Set<URL> urls = linkPublisher.run();
+			System.out.println("Total URL processed:[" + urls.size() + "]");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}

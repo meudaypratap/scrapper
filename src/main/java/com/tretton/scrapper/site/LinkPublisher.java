@@ -51,7 +51,8 @@ public class LinkPublisher {
 		subscribers.parallelStream().forEach(subscriber -> subscriber.subscribe(url));
 	}
 
-	public void run() {
+	public Set<URL> run() {
 		process(url);
+		return urls;
 	}
 }
