@@ -1,7 +1,7 @@
 package com.tretton.scrapper.subscriber;
 
 import com.tretton.scrapper.model.UrlContent;
-import com.tretton.scrapper.util.FileUtil;
+import com.tretton.scrapper.util.UrlToFileConverter;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,8 +16,8 @@ public class FileSystemUrlContentSubscriber implements UrlContentSubscriber {
 	@Override
 	public void subscribe(UrlContent urlContent) {
 		URL url = urlContent.getUrl();
-		String fileName = FileUtil.getFileName(url);
-		String folderName = FileUtil.getFolderName(url);
+		String fileName = UrlToFileConverter.getFileName(url);
+		String folderName = UrlToFileConverter.getFolderName(url);
 		File directory = new File(folderName);
 		if (!directory.exists()) {
 			directory.mkdir();
