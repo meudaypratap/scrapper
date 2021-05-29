@@ -2,11 +2,14 @@ package com.tretton.scrapper.site;
 
 import com.tretton.scrapper.util.UrlContent;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class LinkScrapper implements LinkSubscriber {
 	private static final Integer CONNECTION_TIMEOUT = 10000;
@@ -27,8 +30,11 @@ public class LinkScrapper implements LinkSubscriber {
 
 	private void process(URL url) {
 		try {
-			String content = Jsoup.parse(url, CONNECTION_TIMEOUT).html();
-			UrlContent urlContent = new UrlContent(url, content);
+			Document document = Jsoup.parse(url, CONNECTION_TIMEOUT);
+			Elements links = document.select("a[href]");
+			Set<String> urls = links.stream().map(element -> element.attr("abs:href")).collect(Collectors.toSet());
+
+			UrlContent urlContent = new UrlContent(url, document.html(), urls);
 			notifySubscribers(urlContent);
 		} catch (IOException e) {
 			e.printStackTrace();
