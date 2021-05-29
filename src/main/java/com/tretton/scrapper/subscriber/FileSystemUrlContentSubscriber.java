@@ -31,7 +31,7 @@ public class FileSystemUrlContentSubscriber implements UrlContentSubscriber {
 		String folderName = UrlToFileConverter.getFolderName(url);
 		String content = urlContent.getContent();
 
-		fileWriter.write(fileName, folderName, content);
+		fileWriter.write(folderName, fileName, content);
 	}
 
 }
