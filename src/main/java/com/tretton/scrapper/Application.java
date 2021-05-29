@@ -23,6 +23,7 @@ public class Application {
 
 	private static void process(String url) {
 		try {
+			Long start = System.currentTimeMillis();
 			LinkPublisher linkPublisher = new LinkPublisher(url);
 			UrlContentSubscriber linkFinder = new LinkProcessor(linkPublisher);
 
@@ -35,7 +36,9 @@ public class Application {
 			linkPublisher.addSubscriber(new ProgressBar());
 
 			Set<URL> urls = linkPublisher.run();
-			System.out.println("Total URL processed:[" + urls.size() + "]");
+			Long end = System.currentTimeMillis();
+			Long seconds = (end - start) / 1000;
+			System.out.println("Total URL processed:[" + urls.size() + "], Execution time: [" + seconds + "] seconds");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
