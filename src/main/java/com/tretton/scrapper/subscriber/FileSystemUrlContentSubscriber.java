@@ -1,34 +1,37 @@
 package com.tretton.scrapper.subscriber;
 
 import com.tretton.scrapper.model.UrlContent;
+import com.tretton.scrapper.util.FileWriter;
 import com.tretton.scrapper.util.UrlToFileConverter;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
+/**
+ * This class writes the html on the file system by subscribing to content scraped event
+ *
+ * @author Uday
+ * @version 1.0
+ * @since 1.0
+ */
 public class FileSystemUrlContentSubscriber implements UrlContentSubscriber {
 
+	private final FileWriter fileWriter;
+
+	public FileSystemUrlContentSubscriber(FileWriter fileWriter) {
+		this.fileWriter = fileWriter;
+	}
+
+	/**
+	 * This method gets the url and content to write it on file system
+	 */
 	@Override
 	public void subscribe(UrlContent urlContent) {
 		URL url = urlContent.getUrl();
 		String fileName = UrlToFileConverter.getFileName(url);
 		String folderName = UrlToFileConverter.getFolderName(url);
-		File directory = new File(folderName);
-		if (!directory.exists()) {
-			directory.mkdir();
-		}
-		String fullPath = folderName + "/" + fileName;
-		Path path = Paths.get(fullPath);
-		try {
-			Files.write(path, urlContent.getContent().getBytes(StandardCharsets.UTF_8));
-		} catch (IOException e) {
-			System.out.println("Error writing file: [" + fullPath + "]");
-		}
+		String content = urlContent.getContent();
+
+		fileWriter.write(fileName, folderName, content);
 	}
 
 }
