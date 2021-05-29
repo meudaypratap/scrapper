@@ -1,44 +1,44 @@
 package com.tretton.scrapper.subscriber;
 
 import com.tretton.scrapper.model.UrlContent;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
+import com.tretton.scrapper.util.HtmlParser;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
+/**
+ * This class scraps the data from url and publishes message to its subscriber in the form of html content and links in the page
+ *
+ * @author Uday
+ * @version 1.0
+ * @since 1.0
+ */
 public class LinkScrapper implements LinkSubscriber {
-	private static final Integer CONNECTION_TIMEOUT = 10000;
 	private final Set<UrlContentSubscriber> subscribers;
+	private final HtmlParser htmlParser;
 
-	public LinkScrapper() {
+	public LinkScrapper(HtmlParser htmlParser) {
 		subscribers = new HashSet<>();
+		this.htmlParser = htmlParser;
 	}
 
+	/**
+	 * This method process the url content to extract html and links, it publishes the processed message to its subscriber
+	 */
 	@Override
 	public void subscribe(URL url) {
-		process(url);
+		UrlContent urlContent = htmlParser.parse(url);
+		if (urlContent != null) {
+			notifySubscribers(urlContent);
+		}
 	}
 
+	/**
+	 * Subscribers can be added for processed html response
+	 */
 	public void addSubscriber(UrlContentSubscriber subscriber) {
 		subscribers.add(subscriber);
-	}
-
-	private void process(URL url) {
-		try {
-			Document document = Jsoup.parse(url, CONNECTION_TIMEOUT);
-			Elements links = document.select("a[href]");
-			Set<String> urls = links.stream().map(element -> element.attr("abs:href")).collect(Collectors.toSet());
-
-			UrlContent urlContent = new UrlContent(url, document.html(), urls);
-			notifySubscribers(urlContent);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	private void notifySubscribers(UrlContent urlContent) {

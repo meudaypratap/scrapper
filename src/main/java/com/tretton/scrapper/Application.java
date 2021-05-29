@@ -6,6 +6,7 @@ import com.tretton.scrapper.subscriber.FileSystemUrlContentSubscriber;
 import com.tretton.scrapper.subscriber.LinkScrapper;
 import com.tretton.scrapper.subscriber.ProgressBar;
 import com.tretton.scrapper.subscriber.UrlContentSubscriber;
+import com.tretton.scrapper.util.JsoupParser;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,7 +28,7 @@ public class Application {
 			LinkPublisher linkPublisher = new LinkPublisher(url);
 			UrlContentSubscriber linkFinder = new LinkProcessor(linkPublisher);
 
-			LinkScrapper linkScrapper = new LinkScrapper();
+			LinkScrapper linkScrapper = new LinkScrapper(new JsoupParser());
 			linkScrapper.addSubscriber(new FileSystemUrlContentSubscriber());
 			linkScrapper.addSubscriber(linkFinder);
 
