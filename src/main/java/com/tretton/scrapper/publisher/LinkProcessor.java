@@ -1,6 +1,7 @@
-package com.tretton.scrapper.site;
+package com.tretton.scrapper.publisher;
 
-import com.tretton.scrapper.util.UrlContent;
+import com.tretton.scrapper.subscriber.UrlContentSubscriber;
+import com.tretton.scrapper.model.UrlContent;
 
 public class LinkProcessor implements UrlContentSubscriber {
 	private final LinkPublisher linkPublisher;

@@ -1,4 +1,6 @@
-package com.tretton.scrapper.site;
+package com.tretton.scrapper.subscriber;
+
+import com.tretton.scrapper.subscriber.LinkSubscriber;
 
 import java.net.URL;
 

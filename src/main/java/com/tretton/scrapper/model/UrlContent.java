@@ -1,4 +1,4 @@
-package com.tretton.scrapper.util;
+package com.tretton.scrapper.model;
 
 import java.net.URL;
 import java.util.Set;

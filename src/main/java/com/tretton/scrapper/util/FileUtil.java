@@ -1,42 +1,17 @@
-package com.tretton.scrapper.site;
+package com.tretton.scrapper.util;
 
-import com.tretton.scrapper.util.UrlContent;
 import org.jsoup.internal.StringUtil;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class FileSystemUrlContentSubscriber implements UrlContentSubscriber {
+public class FileUtil {
 	private static final String DEFAULT_FILE = "index";
 
-	@Override
-	public void subscribe(UrlContent urlContent) {
-		URL url = urlContent.getUrl();
-		String fileName = getFileName(url);
-		String folderName = getFolderName(url);
-		File directory = new File(folderName);
-		if (!directory.exists()) {
-			directory.mkdir();
-		}
-		String fullPath = folderName + "/" + fileName;
-		Path path = Paths.get(fullPath);
-		try {
-			Files.write(path, urlContent.getContent().getBytes(StandardCharsets.UTF_8));
-		} catch (IOException e) {
-			System.out.println("Error writing file: [" + fullPath + "]");
-		}
-	}
-
-	private String getFileName(URL url) {
+	public static String getFileName(URL url) {
 		String path = url.getPath();
 		String query = url.getQuery();
 		String fileName;
@@ -50,7 +25,7 @@ public class FileSystemUrlContentSubscriber implements UrlContentSubscriber {
 		return fileName + ".html";
 	}
 
-	private String getFolderName(URL url) {
+	public static String getFolderName(URL url) {
 		String path = url.getPath();
 		List<String> folders = new ArrayList<>();
 		folders.add(url.getHost().split("\\.")[0].replaceAll("\\.", "-"));
@@ -60,6 +35,4 @@ public class FileSystemUrlContentSubscriber implements UrlContentSubscriber {
 		}
 		return String.join("/", folders);
 	}
-
-
 }

@@ -1,6 +1,6 @@
-package com.tretton.scrapper.site;
+package com.tretton.scrapper.subscriber;
 
-import com.tretton.scrapper.util.UrlContent;
+import com.tretton.scrapper.model.UrlContent;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;

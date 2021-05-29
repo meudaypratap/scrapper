@@ -1,5 +1,6 @@
-package com.tretton.scrapper.site;
+package com.tretton.scrapper.publisher;
 
+import com.tretton.scrapper.subscriber.LinkSubscriber;
 import org.jsoup.internal.StringUtil;
 
 import java.net.MalformedURLException;
