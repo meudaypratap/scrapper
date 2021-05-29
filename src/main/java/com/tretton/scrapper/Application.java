@@ -13,8 +13,17 @@ import java.util.Set;
 
 public class Application {
 	public static void main(String[] args) {
+		if (args.length == 1) {
+			String url = args[0];
+			process(url);
+		} else {
+			System.out.println("Site url argument not passed, please run the programe like java -jar <JAR PATH> http://tretton37.com");
+		}
+	}
+
+	private static void process(String url) {
 		try {
-			LinkPublisher linkPublisher = new LinkPublisher("https://tretton37.com");
+			LinkPublisher linkPublisher = new LinkPublisher(url);
 			UrlContentSubscriber linkFinder = new LinkProcessor(linkPublisher);
 
 			LinkScrapper linkScrapper = new LinkScrapper();
