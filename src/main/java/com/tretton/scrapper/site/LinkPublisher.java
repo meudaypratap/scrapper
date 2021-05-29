@@ -12,12 +12,12 @@ public class LinkPublisher {
 	private static final Set<URL> urls = new HashSet<>();
 
 	private final String url;
-	private final String domain;
+	private final String host;
 	private final Set<LinkSubscriber> subscribers;
 
 	public LinkPublisher(String url) throws MalformedURLException {
 		this.url = url;
-		this.domain = new URL(url).getHost();
+		this.host = new URL(url).getHost();
 		subscribers = new HashSet<>();
 	}
 
@@ -25,11 +25,14 @@ public class LinkPublisher {
 		if (!StringUtil.isBlank(url)) {
 			String sanitizedUrl = url.split("#")[0];
 			sanitizedUrl = sanitizedUrl.replace("https", "http");
+			if (sanitizedUrl.endsWith("/")) {
+				sanitizedUrl = sanitizedUrl.substring(0, sanitizedUrl.length() - 1);
+			}
 			try {
 				URL link = new URL(sanitizedUrl);
-				if (!urls.contains(link)) {
-					String urlDomain = link.getHost();
-					if (urlDomain.equalsIgnoreCase(domain)) {
+				String urlHost = link.getHost();
+				if (urlHost.equalsIgnoreCase(host)) {
+					if (!urls.contains(link)) {
 						urls.add(link);
 						notifySubscribers(link);
 					}

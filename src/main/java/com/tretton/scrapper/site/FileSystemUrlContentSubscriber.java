@@ -4,6 +4,10 @@ import com.tretton.scrapper.util.UrlContent;
 import org.jsoup.internal.StringUtil;
 
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileSystemUrlContentSubscriber implements UrlContentSubscriber {
 	private static final String DEFAULT_FILE = "index";
@@ -12,7 +16,7 @@ public class FileSystemUrlContentSubscriber implements UrlContentSubscriber {
 	public void subscribe(UrlContent urlContent) {
 		URL url = urlContent.getUrl();
 		String fileName = getFileName(url);
-		String folderName = getFolderName(url);
+		List<String> folderName = getFolderName(url);
 	}
 
 	private String getFileName(URL url) {
@@ -29,10 +33,15 @@ public class FileSystemUrlContentSubscriber implements UrlContentSubscriber {
 		return fileName + ".html";
 	}
 
-	private String getFolderName(URL url) {
+	private List<String> getFolderName(URL url) {
 		String path = url.getPath();
-		String[] paths = path.split("/");
-		return paths.length < 2 ? url.getHost().split("/")[0] : paths[paths.length - 2];
+		List<String> folders = new ArrayList<>();
+		folders.add(url.getHost().split("\\.")[0]);
+		List<String> paths = Stream.of(path.split("/")).filter(value -> !value.isEmpty()).collect(Collectors.toList());
+		if (paths.size() > 1) {
+			folders.addAll(paths.subList(0, paths.size() - 1));
+		}
+		return folders;
 	}
 
 
