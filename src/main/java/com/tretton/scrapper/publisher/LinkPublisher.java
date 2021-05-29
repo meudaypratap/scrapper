@@ -8,6 +8,13 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * This class maintains all the links that are processed and pulishes event if there is any new link found for processing
+ *
+ * @author Uday
+ * @version 1.0
+ * @since 1.0
+ */
 public class LinkPublisher {
 
 	private static final Set<URL> urls = new HashSet<>();
@@ -22,6 +29,9 @@ public class LinkPublisher {
 		subscribers = new HashSet<>();
 	}
 
+	/**
+	 * Sanitizes the url and publish event if any new url found
+	 */
 	public void process(String url) {
 		if (!StringUtil.isBlank(url)) {
 			String sanitizedUrl = url.split("#")[0];
@@ -44,6 +54,9 @@ public class LinkPublisher {
 		}
 	}
 
+	/**
+	 * Add subscribers who would be notified whenever there is any new url
+	 */
 	public void addSubscriber(LinkSubscriber subscriber) {
 		subscribers.add(subscriber);
 	}
@@ -52,6 +65,9 @@ public class LinkPublisher {
 		subscribers.parallelStream().forEach(subscriber -> subscriber.subscribe(url));
 	}
 
+	/**
+	 * Run scrapping on assigned url in construtor
+	 */
 	public Set<URL> run() {
 		process(url);
 		return urls;
