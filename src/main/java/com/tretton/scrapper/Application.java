@@ -8,18 +8,20 @@ import com.tretton.scrapper.subscriber.ProgressBar;
 import com.tretton.scrapper.subscriber.UrlContentSubscriber;
 import com.tretton.scrapper.util.FileSystemWriter;
 import com.tretton.scrapper.util.JsoupParser;
+import lombok.extern.java.Log;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
 
+@Log
 public class Application {
 	public static void main(String[] args) {
 		if (args.length == 1) {
 			String url = args[0];
 			process(url);
 		} else {
-			System.out.println("Site url argument not passed, please run the programe like java -jar <JAR PATH> http://tretton37.com");
+			log.info("Site url argument not passed, please run the programe like java -jar <JAR PATH> http://tretton37.com");
 		}
 	}
 
@@ -39,8 +41,8 @@ public class Application {
 
 			Set<URL> urls = linkPublisher.run();
 			Long end = System.currentTimeMillis();
-			Long seconds = (end - start) / 1000;
-			System.out.println("Total URL processed:[" + urls.size() + "], Execution time: [" + seconds + "] seconds");
+			long seconds = (end - start) / 1000;
+			log.info("Total URL processed:[" + urls.size() + "], Execution time: [" + seconds + "] seconds");
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}

@@ -1,5 +1,7 @@
 package com.tretton.scrapper.subscriber;
 
+import lombok.extern.java.Log;
+
 import java.net.URL;
 
 /**
@@ -9,6 +11,7 @@ import java.net.URL;
  * @version 1.0
  * @since 1.0
  */
+@Log
 public class ProgressBar implements LinkSubscriber {
 
 	private Integer counter;
@@ -23,6 +26,6 @@ public class ProgressBar implements LinkSubscriber {
 	@Override
 	public void subscribe(URL url) {
 		counter++;
-		System.out.println("Processing URL [" + url + "] # " + counter);
+		log.info("Processing URL [" + url + "] # " + counter);
 	}
 }

@@ -1,5 +1,7 @@
 package com.tretton.scrapper.util;
 
+import lombok.extern.java.Log;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -7,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+@Log
 public class FileSystemWriter implements FileWriter {
 	@Override
 	public void write(String folderName, String fileName, String content) {
@@ -19,7 +22,7 @@ public class FileSystemWriter implements FileWriter {
 		try {
 			Files.write(path, content.getBytes(StandardCharsets.UTF_8));
 		} catch (IOException e) {
-			System.out.println("Error writing file: [" + fullPath + "]");
+			log.info("Error writing file: [" + fullPath + "]");
 		}
 	}
 }
